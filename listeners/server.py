@@ -1,6 +1,6 @@
 import socket
 import threading
-from logger import logger
+from helper.logger import logger
 
 class MyServer:
     def __init__(self, host="localhost", port=6842):

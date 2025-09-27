@@ -1,6 +1,6 @@
 import re
-from client import MyClient
-from server import MyServer
+from listeners.client import MyClient
+from listeners.server import MyServer
 
 def main():
     server = MyServer()

@@ -1,7 +1,7 @@
 import socket 
-from sockettype import *
+from dataclass.sockettype import *
 import threading
-from logger import logger
+from helper.logger import logger
 
 class MyClient:
     def __init__(self, host="localhost", port=6842):
