@@ -22,7 +22,7 @@ class MyClient:
                     self.stop()
                     break
                 print(chunk.decode())
-            except:
+            except KeyboardInterrupt:
                 self.stop()
                 break
 

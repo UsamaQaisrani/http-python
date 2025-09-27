@@ -1,6 +1,7 @@
 import socket
 import threading
 from helper.logger import logger
+from listeners.server.headervalidator import HeaderValidator
 
 class MyServer:
     def __init__(self, host="localhost", port=6842):
@@ -10,6 +11,7 @@ class MyServer:
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.bind((self.host, self.port))
         self.sock.listen(1)
+        self.data = ""
         logger.debug(f"Server listening on port: {self.port}")
 
         self.conn = None
@@ -28,13 +30,15 @@ class MyServer:
         while self.running:
             try:
                 chunk = self.conn.recv(1024)
-                logger.info(chunk.decode())
+                logger.info(chunk.decode("utf-8"))
                 if not chunk:
                     self.stop()
                     break
-            except:
+                self.data += chunk.decode("utf-8")
+            except KeyboardInterrupt:
                 self.stop()
                 break
+
 
     def stop(self):
         logger.debug(f"Server disconnecting from port: {self.port}")

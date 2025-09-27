@@ -1,12 +1,14 @@
 import re
-from listeners.client import MyClient
-from listeners.server import MyServer
+from listeners.client.client import MyClient
+from listeners.server.server import MyServer
+import time
 
 def main():
     server = MyServer()
     client = MyClient()
 
     for line in readDataInOctets("message.txt"):
+        time.sleep(0.01)
         client.send(line.encode())
 
 def readDataInOctets(path):
