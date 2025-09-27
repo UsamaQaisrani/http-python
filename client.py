@@ -1,6 +1,7 @@
 import socket 
 from sockettype import *
 import threading
+from logger import logger
 
 class MyClient:
     def __init__(self, host="localhost", port=6842):
@@ -13,7 +14,7 @@ class MyClient:
         threading.Thread(target=self.listen, daemon=True).start()
 
     def listen(self):
-        print(f"Client listening on port: {self.port}")
+        logger.debug(f"Client listening on port: {self.port}")
         while self.running:
             try:
                 chunk = self.sock.recv(1024)
@@ -26,12 +27,12 @@ class MyClient:
                 break
 
     def stop(self):
-        print(f"Disconnecting from port: {self.port}")
+        logger.debug(f"Disconnecting from port: {self.port}")
         self.running = False
         self.sock.close()
     
     def send(self, message):
-        print(f"Sending message on port: {self.port}")
+        logger.debug(f"Sending message on port: {self.port}")
         self.sock.sendall(message)
 
 

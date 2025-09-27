@@ -1,5 +1,6 @@
 import socket
 import threading
+from logger import logger
 
 class MyServer:
     def __init__(self, host="localhost", port=6842):
@@ -9,7 +10,7 @@ class MyServer:
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.bind((self.host, self.port))
         self.sock.listen(1)
-        print(f"Server listening on port: {self.port}")
+        logger.debug(f"Server listening on port: {self.port}")
 
         self.conn = None
         self.addr = None
@@ -20,14 +21,14 @@ class MyServer:
 
     def accept(self):
         self.conn, self.addr = self.sock.accept()
-        print(f"Client connected: {self.addr}")
+        logger.debug(f"Client connected: {self.addr}")
         threading.Thread(target=self.listen, daemon=True).start()
 
     def listen(self):
         while self.running:
             try:
                 chunk = self.conn.recv(1024)
-                print(chunk.decode())
+                logger.info(chunk.decode())
                 if not chunk:
                     self.stop()
                     break
@@ -36,7 +37,7 @@ class MyServer:
                 break
 
     def stop(self):
-        print(f"Server disconnecting from port: {self.port}")
+        logger.debug(f"Server disconnecting from port: {self.port}")
         self.running = False
         if self.conn:
             self.conn.close()
